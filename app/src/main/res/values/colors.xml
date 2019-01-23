@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#000000</color>
+    <color name="colorAccent">#ffffff</color>
+    <color name="colorBackground">#576e92</color>
+    <color name="colorButton">#004C66</color>
+
+    <color name="colorYazi1">#154389</color>
+    <color name="colorYazi2">#383c54</color>
+
+    <color name="blue">#00abea</color>
+    <color name="white">#ffffff</color>
+</resources>
