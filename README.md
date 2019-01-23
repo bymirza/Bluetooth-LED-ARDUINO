@@ -1,3 +1,3 @@
-# BT-LED-ARDUINO
+# Bluetooth LED ARDUINO
 
 https://play.google.com/store/apps/details?id=com.bymirza.net.btled
