@@ -1,7 +1,12 @@
 package com.bymirza.net.btled;
 
+import android.Manifest;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,8 +21,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class CihazListesi extends AppCompatActivity
-{
+public class CihazListesi extends AppCompatActivity {
     private static final int EXIT_TIME_INTERVAL = 2000; // # milliseconds, çıkış için ikinci basma aralığı.
     private long mBackPressed;
     //widgets
@@ -34,33 +38,51 @@ public class CihazListesi extends AppCompatActivity
         setContentView(R.layout.activity_devicelist);
 
         //Calling widgets
-        btnPaired = (Button)findViewById(R.id.button);
-        devicelist = (ListView)findViewById(R.id.listView);
+        btnPaired = (Button) findViewById(R.id.button);
+        devicelist = (ListView) findViewById(R.id.listView);
 
         //if the device has bluetooth
         myBluetooth = BluetoothAdapter.getDefaultAdapter();
 
-        if(myBluetooth == null){
+        if (myBluetooth == null) {
             //Show a mensag. that the device has no bluetooth adapter
             Toast.makeText(getApplicationContext(), "Bluetooth Cihazı Mevcut Değil", Toast.LENGTH_LONG).show();
             //finish apk
             finish();
-        }
-        else if(!myBluetooth.isEnabled()) {
+        } else if (!myBluetooth.isEnabled()) {
             //Ask to the user turn the bluetooth on
             Intent turnBTon = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(turnBTon,1);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            startActivityForResult(turnBTon, 1);
         }
         btnPaired.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 pairedDevicesList();
             }
         });
     }
 
     private void pairedDevicesList() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         pairedDevices = myBluetooth.getBondedDevices();
         ArrayList list = new ArrayList();
 
