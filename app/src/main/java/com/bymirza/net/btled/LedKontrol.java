@@ -1,13 +1,14 @@
 package com.bymirza.net.btled;
 
 import android.net.Uri;
+
+import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.SwitchCompat;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.app.ProgressDialog;
@@ -40,28 +41,21 @@ public class LedKontrol extends AppCompatActivity {
         //view of the LedKontrol
         setContentView(R.layout.activity_ledcontrol);
         //call the widgets
-        BaglantiKes = (ImageButton)findViewById(R.id.baglantikes);
+        BaglantiKes = findViewById(R.id.baglantikes);
         new ConnectBT().execute(); //Call the class to connect
-        BaglantiKes.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Disconnect(); //close connection
-            }
+        BaglantiKes.setOnClickListener(v -> {
+            Disconnect(); //close connection
         });
 
-        switch_compat_onoff = (SwitchCompat) findViewById(R.id.switch_compat_onoff);
+        switch_compat_onoff = findViewById(R.id.switch_compat_onoff);
         switch_compat_onoff.setChecked(false);
-        switch_compat_onoff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch_compat_onoff.setOnCheckedChangeListener((buttonView, isChecked) -> {
 
-                if (isChecked) {
-                    turnOnLed();
-                } else {
-                    turnOffLed();
-                }
+            if (isChecked) {
+                turnOnLed();
+            } else {
+                turnOffLed();
             }
-
         });
     }
 
@@ -112,7 +106,7 @@ public class LedKontrol extends AppCompatActivity {
         protected void onPreExecute(){
             progress = ProgressDialog.show(LedKontrol.this, "Bağlanıyor...", "Lütfen Bekleyiniz...");  //show a progress dialog
         }
-
+        @RequiresPermission( allOf = {"android.permission.BLUETOOTH_CONNECT", "android.permission.BLUETOOTH_SCAN"})
         @Override
         protected Void doInBackground(Void... devices) //while the progress dialog is shown, the connection is done in background
         {

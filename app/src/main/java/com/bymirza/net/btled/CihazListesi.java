@@ -38,8 +38,8 @@ public class CihazListesi extends AppCompatActivity {
         setContentView(R.layout.activity_devicelist);
 
         //Calling widgets
-        btnPaired = (Button) findViewById(R.id.button);
-        devicelist = (ListView) findViewById(R.id.listView);
+        btnPaired = findViewById(R.id.button);
+        devicelist = findViewById(R.id.listView);
 
         //if the device has bluetooth
         myBluetooth = BluetoothAdapter.getDefaultAdapter();
@@ -64,12 +64,7 @@ public class CihazListesi extends AppCompatActivity {
             }
             startActivityForResult(turnBTon, 1);
         }
-        btnPaired.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pairedDevicesList();
-            }
-        });
+        btnPaired.setOnClickListener(v -> pairedDevicesList());
     }
 
     private void pairedDevicesList() {
@@ -100,19 +95,17 @@ public class CihazListesi extends AppCompatActivity {
         devicelist.setOnItemClickListener(myListClickListener); //Method called when the device from the list is clicked
     }
 
-    private AdapterView.OnItemClickListener myListClickListener = new AdapterView.OnItemClickListener() {
-        public void onItemClick (AdapterView<?> av, View v, int arg2, long arg3){
-            // Get the device MAC address, the last 17 chars in the View
-            String info = ((TextView) v).getText().toString();
-            String address = info.substring(info.length() - 17);
+    private AdapterView.OnItemClickListener myListClickListener = (av, v, arg2, arg3) -> {
+        // Get the device MAC address, the last 17 chars in the View
+        String info = ((TextView) v).getText().toString();
+        String address = info.substring(info.length() - 17);
 
-            // Make an intent to start next activity.
-            Intent i = new Intent(CihazListesi.this, LedKontrol.class);
+        // Make an intent to start next activity.
+        Intent i = new Intent(CihazListesi.this, LedKontrol.class);
 
-            //Change the activity.
-            i.putExtra(EXTRA_ADDRESS, address); //this will be received at LedKontrol (class) Activity
-            startActivity(i);
-        }
+        //Change the activity.
+        i.putExtra(EXTRA_ADDRESS, address); //this will be received at LedKontrol (class) Activity
+        startActivity(i);
     };
 
     @Override
