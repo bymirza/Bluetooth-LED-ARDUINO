@@ -3,12 +3,12 @@ package com.bymirza.net.btled;
 import android.Manifest;
 import android.content.Intent;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -65,6 +65,20 @@ public class CihazListesi extends AppCompatActivity {
             startActivityForResult(turnBTon, 1);
         }
         btnPaired.setOnClickListener(v -> pairedDevicesList());
+
+        OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // handle backpressed here
+                if (mBackPressed + EXIT_TIME_INTERVAL > System.currentTimeMillis())
+                {
+                    finish();
+                }
+                else { Toast.makeText(getBaseContext(), getString(R.string.cikis_uyari), Toast.LENGTH_SHORT).show(); }
+                mBackPressed = System.currentTimeMillis();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this,onBackPressedCallback);
     }
 
     private void pairedDevicesList() {
@@ -95,7 +109,7 @@ public class CihazListesi extends AppCompatActivity {
         devicelist.setOnItemClickListener(myListClickListener); //Method called when the device from the list is clicked
     }
 
-    private AdapterView.OnItemClickListener myListClickListener = (av, v, arg2, arg3) -> {
+    private final AdapterView.OnItemClickListener myListClickListener = (av, v, arg2, arg3) -> {
         // Get the device MAC address, the last 17 chars in the View
         String info = ((TextView) v).getText().toString();
         String address = info.substring(info.length() - 17);
@@ -108,14 +122,4 @@ public class CihazListesi extends AppCompatActivity {
         startActivity(i);
     };
 
-    @Override
-    public void onBackPressed() {
-        if (mBackPressed + EXIT_TIME_INTERVAL > System.currentTimeMillis()) {
-            super.onBackPressed();
-            return;
-        }
-        else { Toast.makeText(getBaseContext(), R.string.cikis_uyari, Toast.LENGTH_SHORT).show(); }
-
-        mBackPressed = System.currentTimeMillis();
-    }
 }
