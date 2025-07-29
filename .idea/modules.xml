@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Bluetooth-LED-ARDUINO.iml" filepath="$PROJECT_DIR$/.idea/modules/Bluetooth-LED-ARDUINO.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Bluetooth-LED-ARDUINO.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Bluetooth-LED-ARDUINO.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Bluetooth-LED-ARDUINO.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Bluetooth-LED-ARDUINO.app.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Bluetooth-LED-ARDUINO.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Bluetooth-LED-ARDUINO.app.main.iml" />
